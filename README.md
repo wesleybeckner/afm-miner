@@ -1,6 +1,6 @@
 # Project Title: AFM Miner
 
-![](pickaxe.png)
+![](./afmMiner/images/pickaxe.png)
 
 # Directory Structure 
 
