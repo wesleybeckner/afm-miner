@@ -1,7 +1,0 @@
-The data will be images that have been collected with various atomic force microscopy (AFM) techniques. They include scanning kelvin probe microscopy (SKPM), photoconducdtive atomic force microscopy (pc-AFM), and photoluminesence (PL). In each technique, an AFM probe raster scans an area of a sample to produce a topography image. The probe then raster scans the same area again, retracing the topography obtained from the first pass, and while doing so, probes some nanoscale,  electrical property of the sample area. SKPM probes the relative contact difference potential between the tip and sample. In pc-AFM, a bias is applied at each point and the current measured; a current-voltage curve can at each point can be constructed to obtain  the open circuit voltage. The PL image is not collected with an AFM tip; it is an optical measurement in which a sample is excited by a laser beam. Photons emitted by a  generate a current through a photomultiplier tube, which produces a PL map. PL is a diffraction limited technique and therefore has resolution lower than that of AFM-based techniques.   
-
-Each image is constructed from a 256X256 array. Except for PL, there is a corresponding topography image. The data has been provided by the Ginger Lab. 
-
-Since we have the corresponding PL image for the data, we can divide an image into two halves, one of which is used to train the model and the other which can be used to test the model. 
-
-  
