@@ -135,4 +135,3 @@ def selfCompare(x_input, y_input, n_trees=5, n_depth=5, n_feature_vector=1):
                         wspace=None, hspace=None)
     plt.show()
     return clf
-    #fig.savefig(filename='vector_variation_MABr', bbox_inches='tight')
