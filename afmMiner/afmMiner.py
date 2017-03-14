@@ -5,8 +5,8 @@ def selfCompare(x_input, y_input, n_trees=5, n_depth=5, n_feature_vector=1):
     """
     selfCompare
     
-    selfCompare will train an random forrest on the top half of a set of input images 
-    and use the bottom half to make a prediction of the photoluminescence of the same
+    selfCompare trains a random forrest on the top half of a set of input images 
+    and uses the bottom half to make a prediction of the photoluminescence of the same
     material. 
     
     selfCompare(n_trees, n_depth, n_feature_vector, x_input, y_input)
@@ -46,7 +46,7 @@ def selfCompare(x_input, y_input, n_trees=5, n_depth=5, n_feature_vector=1):
         inputs[h] = np.loadtxt('afmMiner/data/%s.txt' % i,skiprows=0, dtype=np.float64)
 
     ###Create training and testing arrays
-    x = inputs[0].shape[0]/2
+    x = int(inputs[0].shape[0]/2)
     x2 = inputs[0].shape[0]
     y = inputs[0].shape[1]
 
