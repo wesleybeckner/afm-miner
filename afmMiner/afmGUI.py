@@ -1,6 +1,6 @@
 ###import modules
-from Tkinter import *
-import ttk
+from tkinter import *
+from tkinter import ttk
 
     
 def calculate(**kwargs):
