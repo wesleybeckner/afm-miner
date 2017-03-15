@@ -1,6 +1,3 @@
-def myround(x, base):
-    return (float(base) * round(float(x)/float(base)))
-
 def selfCompare(x_input, y_input, n_trees=5, n_depth=5, n_feature_vector=1):
     """
     selfCompare trains and tests a random forest on the same array of
@@ -13,18 +10,28 @@ def selfCompare(x_input, y_input, n_trees=5, n_depth=5, n_feature_vector=1):
     of input images and use the bottom half to make a prediction of the 
     photoluminescence of the same material. 
 
-    selfCompare(x_input, y_input, n_trees, n_depth, n_feature_vector)
+    Parameters
+    ------------------
+    n_trees : int, optional 
+	Number of trees to include in the ensemble (default 5)
 
-    n_trees: default 5
+    n_depth : int, optional
+	Maximum depth of each tree in the ensembel (default 5)
 
-    n_depth: default 5
+    n_feature_vector : int, optional
+	Describes the feature vector for each input image can be up
+	to an array of up to 4x4 (default 1)
 
-    n_feature_vector: default 1
-        can be 1, 2, or 3 surrounding pixels
+    x_input : str, list
+	Give the name(s) of the input file(s) for train/testing
 
-    x_input: no default, tuple of file names
+    y_input: str
+	Give the name of the target image to be predicted
 
-    y_input: no default, file name
+    Returns
+    ------------------
+    Figure : matplotlib.plot()
+
     """
     ###import modules
     import numpy as np
@@ -56,23 +63,35 @@ def crossCompare(x_input1, y_input1, x_input2, y_input2, n_trees=5, n_depth=5, \
     to make a prediction of the photoluminescence of the second
     material. 
 
-    crossCompare(x_input1, y_input1, x_input2, y_input2,  n_trees, n_depth, 
-    n_feature_vector)
+    Parameters
+    ------------------
+    n_trees : int, optional 
+	Number of trees to include in the ensemble (default 5)
 
-    n_trees: default 5
+    n_depth : int, optional
+	Maximum depth of each tree in the ensembel (default 5)
 
-    n_depth: default 5
+    n_feature_vector : int, optional
+	Describes the feature vector for each input image can be up
+	to an array of up to 4x4 (default 1)
 
-    n_feature_vector: default 1
-        can be 1, 2, or 3 surrounding pixels
+    x_input1 : str, list
+	Give the name(s) of the input file(s) for training
 
-    x_input1: no default, tuple of file names
+    y_input1: str
+	Give the name of the target image for training
 
-    y_input1: no default, file name
+    x_input1 : str, list
+	Give the name(s) of the input file(s) for testing
 
-    x_input2: no default, tuple of file names
+    y_input1: str
+	Give the name of the target image to be predicted
+	(this is used only to print to screen as a comparison)
 
-    y_input2: no default, file name
+    Returns
+    ------------------
+    Figure : matplotlib.plot()
+
     """
     ###import modules
     import numpy as np
@@ -122,10 +141,10 @@ def afmTrainTest(x_input, y_input, pixelContext, depths, trees, train, test):
     
     ###Load data and scale
     inputs=np.zeros(len(x_input), dtype=object)
-    Pl=preprocessing.scale(np.loadtxt('afmMiner/data/%s.txt' % y_input,\
+    Pl=preprocessing.scale(np.loadtxt('%s.txt' % y_input,\
         skiprows=0, dtype=np.float64))
     for h,i in enumerate(x_input):
-        inputs[h] = preprocessing.scale(np.loadtxt('afmMiner/data/%s.txt' \
+        inputs[h] = preprocessing.scale(np.loadtxt('%s.txt' \
             % i,skiprows=0, dtype=np.float64))
         
     ###Decide how to parse inputs (train+test, train, or test)   
@@ -243,4 +262,12 @@ def afmImageShow(Pl_predict, n_feature_vector, n_depth, n_trees, roundscore, Pl)
                         wspace=None, hspace=None)
     
     plt.show()
+    return plt
+
+def myround(x, base):
+    """
+    myround is a simple round tool
+    """
+    return (float(base) * round(float(x)/float(base)))
+
 
