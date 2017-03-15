@@ -41,9 +41,9 @@ def afmTrainTest(x_input, y_input, pixelContext, depths, trees, train, test):
     
     ###Load data and scale
     inputs=np.zeros(len(x_input), dtype=object)
-    Pl=preprocessing.scale(np.loadtxt('./data/%s.txt' % y_input,skiprows=0, dtype=np.float64))
+    Pl=preprocessing.scale(np.loadtxt('afmMiner/data/%s.txt' % y_input,skiprows=0, dtype=np.float64))
     for h,i in enumerate(x_input):
-        inputs[h] = preprocessing.scale(np.loadtxt('./data/%s.txt' % i,skiprows=0, dtype=np.float64))
+        inputs[h] = preprocessing.scale(np.loadtxt('afmMiner/data/%s.txt' % i,skiprows=0, dtype=np.float64))
         
     ###Decide how to parse inputs (train+test, train, or test)   
     y = inputs[0].shape[1]

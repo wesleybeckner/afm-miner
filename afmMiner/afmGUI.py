@@ -17,6 +17,9 @@ def calculate(**kwargs):
     Takes any arguments. Mainly it takes all the x_inputs, y_inputs, n_trees, n_depth, and n_feature_vector to input into 
     the functions. 
     """
+    ###import modules
+    from afmMiner import crossCompare
+    from afmMiner import selfCompare
     
     x_train=[xvector1A.get(),xvector2A.get(),xvector3A.get(),xvector4A.get(),xvector5A.get(),xvector6A.get(),xvector7A.get()]
     x_test =[xvector1B.get(),xvector2B.get(),xvector3B.get(),xvector4B.get(),xvector5B.get(),xvector6B.get(),xvector7B.get()]
