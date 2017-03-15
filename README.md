@@ -14,7 +14,6 @@ AfmMiner uses **Random Forests**, a kind of non-parametric supervised learning a
 
 **afmMiner, what’s under the hood?** afmMiner uses the sklearn ensemble module RandomForestRegressor to process sets of AFM images and predict non-diffraction limited spatial mapping of the material’s photoluminescence. This ensemble learner trains a number of classifying decision trees on the user’s provided training data (pixels representing the AFM measurements) and averages them to create the final model, example input images are shown below.
 
-![](./afmMiner/images/input1.jpg) 
 ![](./afmMiner/images/input2.jpg) 
 
 The afmMiner user has control over tree depth, number of trees, input images, and a final parameter, the “feature vector” that represents the array size of surrounding pixels that are used as inputs to predict the center pixel. This last option was implemented as a way to contextualize a given pixel with its neighbors and reduce the effect of noisey data.
