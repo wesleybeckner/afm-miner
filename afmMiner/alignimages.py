@@ -29,4 +29,4 @@ alignImage(static, moving, level_iters):
     transformmatrix=mapping.forward
     
     
-    return overlayimages, errorimage, trasnformmatrix
+    return overlayimages, errorimage, transformmatrix
