@@ -1,4 +1,4 @@
-mport numpy as np 
+import numpy as np 
 from alignimages import alignImage
    
 #define path of data files 
