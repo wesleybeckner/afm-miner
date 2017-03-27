@@ -1,4 +1,8 @@
 def selfCompare(x_input, y_input, n_trees=5, n_depth=5, n_feature_vector=1):
+	###dictionary in this function; config paparamter that is a dictionary
+	###that contains all the other default settings
+	###hiearcahy of variables to change
+	###need to add raise exceptions for uninformed/naughty users. 
     """
     selfCompare trains and tests a random forest on the same array of
     input images (x_input and y_input).
@@ -42,15 +46,17 @@ def selfCompare(x_input, y_input, n_trees=5, n_depth=5, n_feature_vector=1):
     ###begin subcalls and variable assignments
     pixelContext, depths, trees = afmSetup(x_input, y_input, n_trees=5, \
         n_depth=5, n_feature_vector=1)
-    Xtrain, Ytrain, Xtest, Ytest, x, y, Pl = afmTrainTest(x_input, y_input,\
-        pixelContext, depths, trees, train=True, test=True)
+    Xtrain, Ytrain, x, y, Pl = afmTrainTest(x_input, y_input,\
+        pixelContext, depths, trees, train=True, test=False)
+    Xtest, Ytest, x, y, Pl = afmTrainTest(x_input, y_input,\
+        pixelContext, depths, trees, train=False, test=True)
     Pl_predict, clf, roundscore = afmModel(Xtrain, Ytrain, Xtest, Ytest, \
         depths, trees, x, y, pixelContext)
     afmImageShow(Pl_predict, n_feature_vector, n_depth, n_trees, \
         roundscore, Pl)
 
 def crossCompare(x_input1, y_input1, x_input2, y_input2, n_trees=5, n_depth=5, \
-        n_feature_vector=1):
+        n_feature_vector=1, split=1):
     """
     crossCompare trains and tests a random forest on the separate arrays of
     input images (x_input1, x_input2, y_input1, and y_input2).
@@ -128,7 +134,8 @@ def afmSetup(x_input, y_input, n_trees=5, n_depth=5, n_feature_vector=1):
     trees = n_trees
     return pixelContext, depths, trees
 
-def afmTrainTest(x_input, y_input, pixelContext, depths, trees, train, test):
+def afmTrainTest(x_input, y_input, pixelContext, depths, trees, train, test,\
+    split=0.5):
     """
     afmTrainTest creates flattened arrays of the input pixel values.
     it's primary job is organizing the arrays in accordance with the
@@ -149,56 +156,35 @@ def afmTrainTest(x_input, y_input, pixelContext, depths, trees, train, test):
         
     ###Decide how to parse inputs (train+test, train, or test)   
     y = inputs[0].shape[1]
-    x = int(inputs[0].shape[0]/2)
-    x2 = inputs[0].shape[0]
+    x = int(inputs[0].shape[0]*split)
+    if train: 
+        start=max(pixelContext)
+        stop=int(inputs[0].shape[0]*split) 
+    if test:
+        start=int(inputs[0].shape[0]*(1-split))
+        stop=inputs[0].shape[0]-max(pixelContext)
 
-    ###Create training and testing arrays
-    if train==True:
-        Xtrain = np.zeros(((y-(max(pixelContext)*2))*(x-max(pixelContext)),\
-                 (len(pixelContext)*len(pixelContext)*len(inputs))))
-        k=0
-        for p in range(max(pixelContext),x):
-            for q in range(max(pixelContext),y-max(pixelContext)):
-                j=0
-                for h, i in enumerate(inputs):
-
-                    for l in pixelContext:
-                        for m in pixelContext:
-                            Xtrain[k,j]=i[(p+l),(q+m)]
-                            j=j+1
-                k = k + 1
-        Ytrain = np.zeros(((y-(max(pixelContext)*2))*(x-max(pixelContext))))
-        k=0 
-        for p in range(max(pixelContext),x):
-            for q in range(max(pixelContext),y-max(pixelContext)):
-                Ytrain[k]=Pl[p,q]
-                k = k + 1
-    if test==True:
-        Xtest = np.zeros(((y-(max(pixelContext)*2))*(x-max(pixelContext)),\
-                (len(pixelContext)*len(pixelContext)*len(inputs))))
-        k=0
-        for p in range(x,x2-max(pixelContext)):
-            for q in range(max(pixelContext),y-max(pixelContext)):
-                j=0
-                for h, i in enumerate(inputs):
-                    for l in pixelContext:
-                        for m in pixelContext:
-                            Xtest[k,j]=i[(p+l),(q+m)]
-                            j=j+1
-                k = k + 1
-
-        Ytest = np.zeros(((y-(max(pixelContext)*2))*(x-max(pixelContext))))
-        k=0
-        for p in range(x,x2-max(pixelContext)):
-            for q in range(max(pixelContext),y-max(pixelContext)):
-                Ytest[k]=Pl[p,q]
-                k = k + 1
-    if train==True & test==True:
-        return Xtrain, Ytrain, Xtest, Ytest, x, y, Pl
-    elif train==True:
-        return Xtrain, Ytrain, x, y, Pl
-    else:
-        return Xtest, Ytest, x, y, Pl
+    X=np.zeros(((y-(max(pixelContext)*2))*(x-max(pixelContext)),\
+             (len(pixelContext)*len(pixelContext)*len(inputs))))
+    current_feature_vector=0
+    for row in range(start,stop):
+        for column in range(max(pixelContext),y-max(pixelContext)):
+            current_feature=0
+            for index, input_value in enumerate(inputs):
+                for row_surrounding in pixelContext:
+                    for column_surrounding in pixelContext:
+                        X[current_feature_vector,current_feature]\
+                        =input_value[(row+row_surrounding),\
+                        (column+column_surrounding)]
+                        current_feature+=1  
+            current_feature_vector+=1
+    Y=np.zeros(((y-(max(pixelContext)*2))*(x-max(pixelContext))))
+    current_target=0 
+    for row in range(start,stop):
+        for column in range(max(pixelContext),y-max(pixelContext)):
+            Y[current_target]=Pl[row,column]
+            current_target+=1
+    return X, Y, x, y, Pl
 
 def afmModel(Xtrain, Ytrain, Xtest, Ytest, depths, trees, x, y, pixelContext, \
         selfCompare=True):
@@ -223,7 +209,7 @@ def afmModel(Xtrain, Ytrain, Xtest, Ytest, depths, trees, x, y, pixelContext, \
     roundscore = myround(score, 0.001)
 
     prediction.append(hold)
-    k = k + 1
+    k+=1
     
     k=0
     merge = (np.array(prediction).flatten())
@@ -232,7 +218,7 @@ def afmModel(Xtrain, Ytrain, Xtest, Ytest, depths, trees, x, y, pixelContext, \
         for i in range((x-max(pixelContext))*1):
             for j in range (y-(max(pixelContext)*2)):
                 Pl_predict[i,j+(l*(y-(max(pixelContext)*2)))] = merge[k]
-                k = k + 1
+                k+=1
     return Pl_predict, clf, roundscore
 
 def afmImageShow(Pl_predict, n_feature_vector, n_depth, n_trees, roundscore, Pl):
@@ -269,5 +255,3 @@ def myround(x, base):
     myround is a simple round tool
     """
     return (float(base) * round(float(x)/float(base)))
-
-
