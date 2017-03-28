@@ -44,9 +44,8 @@ install:
 script:
 - flake8 --ignore N802,N806 `find . -name \*.py | grep -v setup.py | grep -v /doc/`
 
-- mkdir for_test
-- cd for_test
-- py.test --pyargs afmMiner --cov-report term-missing --cov=afmMiner
+- cd afmMiner
+- nosetests
 
 after_success:
 - coveralls
