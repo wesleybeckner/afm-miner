@@ -39,6 +39,7 @@ before_install:
 - travis_retry pip install $PIP_DEPS
 
 install:
+- pip install nose
 - python setup.py install --record installed_files.txt
 
 script:
