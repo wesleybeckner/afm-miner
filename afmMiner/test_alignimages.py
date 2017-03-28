@@ -1,5 +1,5 @@
 import numpy as np 
-from alignimages import alignImage
+from afmMiner import alignImage
    
 #define path of data files 
 MAPI01HeightPath='../afmMiner/data/MAPI_01.txt'

@@ -1,6 +1,7 @@
 from __future__ import absolute_import, division, print_function
 from .version import __version__
 from .afmMiner import *
+from .alignimages import *
 from .afmGUI import *
 
 import numpy as np

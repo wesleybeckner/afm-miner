@@ -1,4 +1,4 @@
-alignImage(static, moving, level_iters):
+def alignImage(static, moving, level_iters):
     """The Symmetric Normalization algorithm uses a multi-resolution approach by building a Gaussian Pyramid.
     The static image is used a reference; a transformation that transforms the moving image into the
     static image is found and applied to the static image.  Returns overlay images, error image, and transformation matrix. 
