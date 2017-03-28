@@ -2,7 +2,7 @@ sudo: false
 
 env:
   global:
-    - CONDA_DEPS="pip flake8 pytest numpy scipy matplotlib pandas sklearn" PIP_DEPS="coveralls pytest-cov"
+    - CONDA_DEPS="pip flake8 pytest numpy scipy matplotlib pandas" PIP_DEPS="coveralls pytest-cov"
 
 matrix:
   include:
