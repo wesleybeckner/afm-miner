@@ -1,5 +1,5 @@
 # Project Title: AFM Miner
-
+[![Build Status](https://travis-ci.org/wesleybeckner/afm-miner.svg?branch=master)](https://travis-ci.org/wesleybeckner/afm-miner)
 ![](./afmMiner/images/pickaxe.png)
 
 # Directory Structure 
