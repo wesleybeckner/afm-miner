@@ -2,7 +2,5 @@
 *.itp
 *.pdb
 *.eps
-*.big
-*.csv
 *.npy
 *.pyc
