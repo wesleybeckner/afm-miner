@@ -1,5 +1,13 @@
-from tkinter import *
-from tkinter import ttk
+import sys
+if sys.version_info[0] < 3:
+    from Tkinter import *
+    from Tkinter import ttk
+else:
+    from tkinter import *
+    from tkinter import ttk
+
+
+elif platform == "win32":
 
 def afmGUI():
     def calculate(**kwargs):
